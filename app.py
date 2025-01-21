@@ -1,9 +1,7 @@
 import streamlit as st
-from snowflake.core import Root
-from snowflake.cortex import Complete
-from snowflake.snowpark.context import get_active_session
 from typing import List, Dict, Any
 import json
+import snowflake.connector
 
 # Constants
 MODELS = [
@@ -11,6 +9,16 @@ MODELS = [
     "llama3.1-70b",
     "llama3.1-8b",
 ]
+def init_snowflake():
+    """Initialize Snowflake connection"""
+    return snowflake.connector.connect(
+        user=st.secrets["snowflake"]["user"],
+        password=st.secrets["snowflake"]["password"],
+        account=st.secrets["snowflake"]["account"],
+        warehouse=st.secrets["snowflake"]["warehouse"],
+        database=st.secrets["snowflake"]["database"],
+        schema=st.secrets["snowflake"]["schema"]
+    )
 
 def init_session_state():
     """Initialize all session state variables"""
@@ -39,20 +47,25 @@ def init_session_state():
         st.session_state.navigating_to_final = False
 
 def init_service_metadata():
-    """Initialize Cortex search service metadata"""
+    """Initialize Cortex search service metadata using Snowflake connection"""
     if "service_metadata" not in st.session_state:
-        services = session.sql("SHOW CORTEX SEARCH SERVICES;").collect()
-        service_metadata = []
-        if services:
-            for s in services:
-                svc_name = s["name"]
-                svc_search_col = session.sql(
-                    f"DESC CORTEX SEARCH SERVICE {svc_name};"
-                ).collect()[0]["search_column"]
-                service_metadata.append(
-                    {"name": svc_name, "search_column": svc_search_col}
-                )
-        st.session_state.service_metadata = service_metadata
+        cursor = conn.cursor()
+        try:
+            services = cursor.execute("SHOW CORTEX SEARCH SERVICES;").fetchall()
+            service_metadata = []
+            if services:
+                for s in services:
+                    svc_name = s[1]  # Assuming name is in second column
+                    svc_details = cursor.execute(
+                        f"DESC CORTEX SEARCH SERVICE {svc_name};"
+                    ).fetchone()
+                    svc_search_col = svc_details[1]  # Assuming search_column is in second column
+                    service_metadata.append(
+                        {"name": svc_name, "search_column": svc_search_col}
+                    )
+            st.session_state.service_metadata = service_metadata
+        finally:
+            cursor.close()
 
 def init_config_options():
     """Initialize sidebar configuration options"""
@@ -91,36 +104,49 @@ def init_config_options():
         )
 
 def query_cortex_search_service(query, columns=[], filter={}):
-    """Query the Cortex search service"""
-    db, schema = session.get_current_database(), session.get_current_schema()
+    """Query the Cortex search service using Snowflake stored procedure"""
+    cursor = conn.cursor()
+    try:
+        params = json.dumps({
+            "query": query,
+            "service_name": st.session_state.selected_cortex_search_service,
+            "num_chunks": st.session_state.num_retrieved_chunks
+        })
+        result = cursor.execute(
+            "CALL CORTEX_SEARCH_PROC(%s)",
+            (params,)
+        ).fetchone()[0]
+        
+        results = json.loads(result)
+        
+        # Format context string similar to original function
+        context_str = ""
+        for i, r in enumerate(results):
+            context_str += f"Context document {i+1}: {r['chunk']} \n\n"
+            
+        if st.session_state.debug:
+            st.sidebar.text_area("Context documents", context_str, height=500)
+            
+        return context_str, results
+    finally:
+        cursor.close()
 
-    cortex_search_service = (
-        root.databases[db]
-        .schemas[schema]
-        .cortex_search_services[st.session_state.selected_cortex_search_service]
-    )
-
-    context_documents = cortex_search_service.search(
-        query, columns=columns, filter=filter, limit=st.session_state.num_retrieved_chunks,
-    )
-    results = context_documents.results
-
-    service_metadata = st.session_state.service_metadata
-    search_col = [s["search_column"] for s in service_metadata
-                    if s["name"] == st.session_state.selected_cortex_search_service][0].lower()
-
-    context_str = ""
-    for i, r in enumerate(results):
-        context_str += f"Context document {i+1}: {r[search_col]} \n" + "\n"
-
-    if st.session_state.debug:
-        st.sidebar.text_area("Context documents", context_str, height=500)
-
-    return context_str, results
 
 def complete(model, prompt):
-    """Generate completion using Cortex"""
-    return Complete(model, prompt).replace("$", "\$")
+    """Generate completion using Snowflake stored procedure"""
+    cursor = conn.cursor()
+    try:
+        params = json.dumps({
+            "prompt": prompt,
+            "model_name": model
+        })
+        result = cursor.execute(
+            "CALL CORTEX_COMPLETE_PROC(%s)",
+            (params,)
+        ).fetchone()[0]
+        return result.replace("$", "\$")
+    finally:
+        cursor.close()
 
 def generate_idea_prompt(domains: List[str], specifications: str) -> str:
     """Create RAG-enhanced prompt for idea generation"""
@@ -132,7 +158,7 @@ def generate_idea_prompt(domains: List[str], specifications: str) -> str:
     
     return f"""
     [INST]
-    As an AI research consultant, generate creative business ideas based on the following:
+    As an AI research consultant, generate creative research ideas based on the following:
     
     Domains: {', '.join(domains)}
     User Specifications: {specifications}
@@ -145,11 +171,11 @@ def generate_idea_prompt(domains: List[str], specifications: str) -> str:
         "ideas": [
             {{
                 "title": "Idea title",
-                "description": "Brief description",
+                "description": "Very lengthy description",
                 "opportunities": ["opp1", "opp2", ...],
                 "drawbacks": ["drawback1", "drawback2", ...],
                 "references": ["ref1", "ref2", ...],
-                "paper_url": "URL of the reference paper"
+                ""
             }}
         ]
     }}
@@ -158,6 +184,52 @@ def generate_idea_prompt(domains: List[str], specifications: str) -> str:
     Include URLs for reference papers where available from the context.
     [/INST]
     """
+
+def generate_summaries_paper(references: List[str]) -> str:
+    """Generate summaries for referenced papers using Cortex"""
+    if not references:
+        return []
+    
+    # Join references into a search query
+    search_query = " ".join(references)
+    
+    # Query Cortex search service for paper content
+    context_str, results = query_cortex_search_service(
+        search_query,
+        columns=["chunk", "file_url", "relative_path"],
+        filter={"@and": [{"@eq": {"language": "English"}}]},
+    )
+    
+    # Create prompt for generating summaries
+    prompt = f"""
+    [INST]
+    Based on the following context about research papers:
+    {context_str}
+    
+    Generate brief summaries for the referenced papers. Include key findings and methodologies where available.
+    
+    Provide your response in JSON format with the following structure:
+    {{
+        "paper_summaries": [
+            {{
+                "title": "Paper title",
+                "summary": "Brief summary of key findings and methodology"
+            }}
+        ]
+    }}
+    [/INST]
+    """
+    
+    # Generate completion using Cortex
+    response = complete(st.session_state.model_name, prompt)
+    
+    try:
+        cleaned_response = response.strip().replace("```json", "").replace("```", "")
+        summaries_data = json.loads(cleaned_response)
+        return summaries_data.get("paper_summaries", [])
+    except json.JSONDecodeError:
+        return []
+
 
 def generate_final_paper_prompt(idea: str, topics: str) -> str:
     """Create prompt for final paper generation"""
@@ -183,6 +255,65 @@ def generate_final_paper_prompt(idea: str, topics: str) -> str:
         "references": ["ref1", "ref2", ...],
         "opportunities": ["innovation1", "innovation2", ...]
     }}
+    [/INST]
+    """
+
+def develop_idea_prompt(idea: str) -> str:
+    """
+    Generate a prompt for developing a comprehensive analysis of a research idea.
+    
+    Parameters:
+    idea (str): The research idea to be developed
+    
+    Returns:
+    str: A formatted prompt for the LLM to analyze the idea
+    """
+    return f"""
+    [INST]
+    Analyze and develop the following research idea in detail:
+    
+    {idea}
+    
+    Provide your response in JSON format with the following structure:
+    {{
+        "brief_description": "A concise 2-3 sentence overview of the core idea",
+        "methodology": [
+            {{
+                "phase": "name of research phase",
+                "description": "brief description of what will be done",
+                "key_techniques": ["technique1", "technique2", ...]
+            }}
+        ],
+        "key_points": [
+            {{
+                "point": "main research point or finding",
+                "significance": "why this point is important",
+                "potential_impact": "expected impact in the field"
+            }}
+        ],
+        "technical_requirements": [
+            {{
+                "requirement": "specific technical need",
+                "justification": "why this is necessary",
+                "alternatives": ["alternative1", "alternative2"]
+            }}
+        ],
+        "innovation_areas": [
+            {{
+                "area": "specific area of innovation",
+                "novelty_factor": "what makes this innovative",
+                "existing_gaps": "gaps in current research this addresses"
+            }}
+        ]
+    }}
+    
+    Focus on making each section:
+    1. Specific and actionable
+    2. Grounded in research feasibility
+    3. Clear in its innovative aspects
+    4. Technically sound
+    
+    Keep descriptions concise but informative.
     [/INST]
     """
 
@@ -292,17 +423,29 @@ def generate_and_display_ideas(domains: List[str], specifications: str):
         for i, idea in enumerate(st.session_state.ideas):
             with st.container():
                 # Reference Paper
-                st.markdown('<h3 class="idea-section-header">Reference Paper</h3>', 
+                st.markdown('<h3 class="idea-section-header">Paper Title</h3>', 
                           unsafe_allow_html=True)
                 st.markdown(f'<div class="idea-text">{idea.get("title", "")}</div>', 
                           unsafe_allow_html=True)
                 
-                # Summary
-                st.markdown('<h3 class="idea-section-header">Summary</h3>', 
+                # Idea Description
+                st.markdown('<h3 class="idea-section-header">Idea Description</h3>', 
                           unsafe_allow_html=True)
                 st.markdown(f'<div class="idea-text">{idea.get("description", "")}</div>', 
                           unsafe_allow_html=True)
                 
+                # Generate and display paper summaries
+                references = idea.get("references", [])
+                if references:
+                    st.markdown('<h3 class="idea-section-header">Related Paper Summaries</h3>', 
+                              unsafe_allow_html=True)
+                    
+                    summaries = generate_summaries_paper(references)
+                    for summary in summaries:
+                        with st.expander(f"📄 :blue[{summary.get('title', 'Paper Summary')}]"):
+                            st.markdown(f"<div class='idea-text'><b>Summary:</b> {summary.get('summary', '')}</div>", 
+                                        unsafe_allow_html=True)
+
                 col1, col2 = st.columns(2)
                 with col1:
                     st.markdown('<h3 class="idea-section-header">Drawbacks</h3>', 
@@ -318,40 +461,16 @@ def generate_and_display_ideas(domains: List[str], specifications: str):
                         st.markdown(f"- <span class='green-text'>{opportunity}</span>", 
                                   unsafe_allow_html=True)
                 
-                # Store the current idea in session state before handling button clicks
-                suggestion = st.text_area("Your Suggestion (If you have no suggestions, please click on Develop Idea)", 
-                                      key=f"suggest_{i}", 
-                                      height=100)
-                
-                col1, col2, col3 = st.columns([1, 1, 2])
-                with col1:
-                    if st.button("Submit Suggestion", key=f"submit_{i}"):
-                        if suggestion.strip():
-                            # Update session state
-                            st.session_state.previous_prompt = specifications
-                            st.session_state.specifications = f"{specifications}\nAdditional context: {suggestion}"
-                            st.session_state.generate_new = True
-                            # Important: Store suggestion in session state
-                            st.session_state[f"suggestion_{i}"] = suggestion
-                            st.rerun()
-                
-                with col2:
-                    # IMPORTANT: Let's modify this section
-                    if st.button("Develop Idea", key=f"develop_{i}"):
-                        # First, set all the necessary state
-                        st.session_state.selected_idea = idea
-                        st.session_state.final_idea = {
-                            "idea": idea.get("description", ""),
-                            "topics": ", ".join(idea.get("references", []))
-                        }
-                        # Set generate_new to False to prevent rerun loop
-                        st.session_state.generate_new = False
-                        # Set the page LAST, right before rerun
-                        st.session_state.page = "final_paper"
-                        # Add a flag to ensure we're really trying to go to final paper
-                        st.session_state.navigating_to_final = True
-                        # Force the rerun
-                        st.rerun()
+                if st.button("Develop Idea", key=f"develop_{i}"):
+                    st.session_state.selected_idea = idea
+                    st.session_state.final_idea = {
+                        "idea": idea.get("description", ""),
+                        "topics": ", ".join(idea.get("references", []))
+                    }
+                    st.session_state.generate_new = False
+                    st.session_state.page = "final_paper"
+                    st.session_state.navigating_to_final = True
+                    st.rerun()
 
                 st.markdown("<hr style='margin: 2rem 0; border-color: #e2e8f0;'>", 
                           unsafe_allow_html=True)
@@ -452,21 +571,18 @@ def final_paper_page():
         st.warning("No idea selected for paper generation")
 
 def explore_page():
-    """Chatbot-style explore page with enhanced styling"""
+    """Chatbot-style explore page"""
     home_button()
     st.markdown('<div class="header"><h2>Explore Ideas</h2></div>', 
                 unsafe_allow_html=True)
     
-    # Display chat history with custom styling
+    # Display chat history
     for message in st.session_state.chat_history:
-        role_style = "chat-message-user" if message["role"] == "user" else "chat-message-assistant"
-        st.markdown(
-            f'<div class="chat-message {role_style}">{message["content"]}</div>',
-            unsafe_allow_html=True
-        )
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
     
     # Chat input
-    if prompt := st.chat_input("What would you like to explore?"):
+    if prompt := st.chat_input("Enter your message"):
         # Add user message to chat
         st.session_state.chat_history.append({"role": "user", "content": prompt})
         
@@ -792,118 +908,19 @@ def apply_custom_styles():
         .input-container .stTextInput {
             flex: 1;
         }
-
-        /* Chat container */
-        .chat-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-        
-        /* Chat message common styles */
-        .chat-message {
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border-radius: 12px;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
-        /* User message styling */
-        .chat-message-user {
-            background: linear-gradient(to right, #bfdbfe, #93c5fd);
-            color: #1e3a8a;
-            margin-left: 2rem;
-            margin-right: 0;
-            border-top-right-radius: 4px;
-        }
-        
-        /* Assistant message styling */
-        .chat-message-assistant {
-            background: #ffffff;
-            color: #1e293b;
-            margin-right: 2rem;
-            margin-left: 0;
-            border-top-left-radius: 4px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        /* Chat input container */
-        .stChatInputContainer {
-            padding: 1rem;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            margin-top: 2rem;
-        }
-        
-        /* Chat input field */
-        .stChatInput input {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-        
-        .stChatInput input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            outline: none;
-        }
-        
-        /* Message animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Placeholder text styling */
-        .stChatInput input::placeholder {
-            color: #94a3b8;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        
-        /* Send button styling */
-        button[data-testid="chatInputSubmitButton"] {
-            background: linear-gradient(to top, #60a5fa, #93c5fd);
-            border-radius: 8px;
-            border: none;
-            padding: 0.5rem 1rem;
-            color: white;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        
-        button[data-testid="chatInputSubmitButton"]:hover {
-            background: linear-gradient(to top, #3b82f6, #60a5fa);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
-        }
         
         </style>
     """, unsafe_allow_html=True)
 
 def main():
     """Main application"""
-    global session, root
-    session = get_active_session()
-    root = Root(session)
+    global conn  # Add global connection variable
     
     st.set_page_config(page_title="InspireIt", page_icon="💡", layout="wide")
     apply_custom_styles()
+    
+    # Initialize Snowflake connection instead of session and root
+    conn = init_snowflake()
     
     init_session_state()
     init_service_metadata()
