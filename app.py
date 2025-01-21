@@ -399,10 +399,10 @@ def get_idea_page():
     """
     <style>
     textarea {
-        font-size: 3rem !important;
+        font-size: 31rem !important;
     }
     input {
-        font-size: 3rem !important;
+        font-size: 31rem !important;
     }
     </style>
     """,
