@@ -383,11 +383,6 @@ def get_idea_page():
         with col1:
             new_value = st.text_input(f"Domain {i+1}", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
-        # Empty middle column for spacing
-        with col2:
-            st.empty()
-        # Plus button in the last column
-        with col3:
             if i == len(st.session_state.domain_inputs) - 1:  # Only show + button for last input
                 if st.button("➕", key="add_domain"):
                     st.session_state.domain_inputs.append('')
