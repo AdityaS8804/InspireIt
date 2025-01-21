@@ -364,7 +364,7 @@ def home_page():
         st.markdown("""
             <div class="card">
                 <h3>Explore More</h3>
-                <p>Discover additional tools and resources for innovation</p>
+                <p>Discover additional tools and resources for innovative research ideas</p>
             </div>
         """, unsafe_allow_html=True)
         if st.button("Explore", key="explore_btn"):
@@ -517,11 +517,12 @@ def review_idea_page():
         
         initial_idea = idea.get('description', '')
         initial_topics = ", ".join(idea.get('references', []))
+    st.markdown(f'<h4>Refine Your Idea</h4>',unsafe_allow_html=True)
+    idea_text = st.text_area("", value=initial_idea, height=150)
+    st.markdown(f'<h4>Topics Covered</h4>',unsafe_allow_html=True)
+    topics = st.text_area("", value=initial_topics, height=100)
     
-    idea_text = st.text_area("Refine Your Idea", value=initial_idea, height=150)
-    topics = st.text_area("Topics Covered", value=initial_topics, height=100)
-    
-    if st.button("Generate Complete Paper"):
+    if st.button("Generate Complete Idea"):
         if idea_text and topics:
             st.session_state.final_idea = {
                 "idea": idea_text,
