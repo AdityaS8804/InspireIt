@@ -750,7 +750,7 @@ def apply_custom_styles():
             color: #1e40af !important;
             font-weight: 600 !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.4rem !important;  /* Increased from 1.25rem */
+            font-size: 1.8rem !important;  /* Increased from 1.25rem */
             margin-bottom: 0.75rem !important;
             opacity: 1 !important;
         }
