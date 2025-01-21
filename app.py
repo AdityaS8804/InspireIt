@@ -376,13 +376,18 @@ def get_idea_page():
     home_button()
     st.markdown('<div class="header"><h2>Generate New Idea</h2></div>', unsafe_allow_html=True)
     
-    # Change to single column for better domain input layout
+    # Change to single container for better domain input layout
     for i, domain in enumerate(st.session_state.domain_inputs):
-        col1, col2 = st.columns([6, 1])
+        # Use columns with different ratios for better spacing
+        col1, col2, col3 = st.columns([5.5, 0.5, 1])  # Adjust the ratios as needed
         with col1:
             new_value = st.text_input(f"Domain {i+1}", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
+        # Empty middle column for spacing
         with col2:
+            st.empty()
+        # Plus button in the last column
+        with col3:
             if i == len(st.session_state.domain_inputs) - 1:  # Only show + button for last input
                 if st.button("➕", key="add_domain"):
                     st.session_state.domain_inputs.append('')
@@ -744,25 +749,31 @@ def apply_custom_styles():
             opacity: 1 !important;
         }
         
-        /* Input Styles */
+        /* Updated Input Label Styles */
         [data-testid="stTextInput"] label,
         [data-testid="stTextArea"] label {
             color: #1e40af !important;
             font-weight: 600 !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.25rem !important;
+            font-size: 1.4rem !important;  /* Increased from 1.25rem */
             margin-bottom: 0.75rem !important;
             opacity: 1 !important;
         }
         
+        /* Updated Input Text Styles */
         [data-testid="stTextInput"] input,
         [data-testid="stTextArea"] textarea {
             color: #1e40af !important;
             font-weight: 500 !important;
-            font-size: 1.1rem !important;
+            font-size: 1.2rem !important;  /* Increased from 1.1rem */
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
             padding: 0.75rem !important;
+        }
+                
+        /* Update Paper Summary Text Size */
+        .stExpander {
+            font-size: 1.2rem !important;  /* Increased from base size */
         }
         
         .stTextInput input:focus, 
@@ -842,7 +853,7 @@ def apply_custom_styles():
         .summary-text {
             color: #1e293b !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.1rem !important;
+            font-size: 1.2rem !important;  /* Increased from 1.1rem */
             line-height: 1.6 !important;
             padding: 0.5rem !important;
             opacity: 1 !important;
@@ -888,7 +899,7 @@ def apply_custom_styles():
             margin-top: 25px !important;
         }
         
-        /* Plus Button Styling */
+        /* Plus Button Alignment and Styling */
         [data-testid="stButton"] button:has(div:contains("➕")) {
             width: 40px !important;
             height: 40px !important;
@@ -896,8 +907,26 @@ def apply_custom_styles():
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            margin-top: 25px !important;
+            margin-top: 23px !important;  /* Align with text input */
             min-height: unset !important;
+            background: linear-gradient(to top, #3b82f6, #60a5fa) !important;
+        }
+        
+        [data-testid="stButton"] button:has(div:contains("➕")):hover {
+            background: linear-gradient(to top, #2563eb, #3b82f6) !important;
+            transform: translateY(-2px);
+        }
+                
+        /* Better spacing for the domain inputs */
+        [data-testid="column"] {
+            padding: 0 !important;
+        }
+        
+        /* Increase font size for paper titles in expanders */
+        .stExpander button p {
+            font-size: 1.2rem !important;
+            color: #1e293b !important;
+            font-weight: 500 !important;
         }
         
         /* Force dark mode prevention */
