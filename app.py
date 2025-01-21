@@ -582,76 +582,45 @@ def explore_page():
     st.markdown('<div class="header"><h2>Explore Ideas</h2></div>', 
                 unsafe_allow_html=True)
     
-    # Display chat history
-    for message in st.session_state.chat_history:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-    
-    # Add custom styling for chat input container
+    # Add this custom CSS specifically for the explore page
     st.markdown("""
         <style>
-        /* Chat Input Container Style */
-.stChatInputContainer {
-    background-color: #f0f7ff !important;  /* Light blue background */
-    padding: 1rem !important;
-    border-radius: 12px !important;
-    border: 2px solid #3b82f6 !important;  /* Blue border */
-    margin-top: 1rem !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-        /* Chat Input Field Style */
+        /* Override the default dark styling */
+        .stChatFloatingInputContainer {
+            background-color: #ffffff !important;
+        }
+        
+        .stChatInputContainer {
+            background-color: #ffffff !important;
+            border: 2px solid #3b82f6 !important;
+        }
+        
         .stChatInput {
             background-color: #ffffff !important;
-            border: 1px solid #3b82f6 !important;  /* Blue border */
-            border-radius: 8px !important;
-            padding: 1rem !important;
-            width: 100% !important;
-            font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.1rem !important;
-            color: #1e293b !important;  /* Dark text color */
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-        }
-        
-        .stChatInput::placeholder {
-            color: #64748b !important;  /* Visible placeholder text */
-        }
-        
-        .stChatInput:focus {
-            border-color: #2563eb !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
-            outline: none !important;
-        }
-        
-        /* Add this to ensure code blocks are readable */
-        .stMarkdown code {
-            background-color: #f8f9fa !important;
             color: #000000 !important;
-            padding: 0.2em 0.4em !important;
-            border-radius: 3px !important;
         }
         
-        .stChatInput::placeholder {
-            color: #64748b !important;
-            opacity: 1 !important;
+        /* Ensure message container is visible */
+        [data-testid="stChatMessageContainer"] {
+            background-color: #ffffff !important;
         }
-
         
-        
-        .stChatInput:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-            background-color: #ffffff !important;  /* White background when focused */
+        /* Make chat messages stand out */
+        .stChatMessage {
+            background-color: #f0f7ff !important;
+            border: 1px solid #e2e8f0 !important;
         }
         </style>
     """, unsafe_allow_html=True)
     
-    # Chat input
+    # Rest of your explore page code...
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+            
     if prompt := st.chat_input("Enter your message"):
-        # Add user message to chat
         st.session_state.chat_history.append({"role": "user", "content": prompt})
         
-        # Generate response
         context_str, _ = query_cortex_search_service(
             prompt,
             columns=["chunk", "file_url", "relative_path"],
@@ -668,12 +637,12 @@ def explore_page():
         Provide a helpful and informative response.
         [/INST]
         """
-        
+
         response = complete(st.session_state.model_name, full_prompt)
         st.session_state.chat_history.append({"role": "assistant", "content": response})
         
         st.rerun()
-
+        
 def apply_custom_styles():
     """Apply custom CSS styles"""
     st.markdown("""
