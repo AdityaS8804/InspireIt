@@ -776,6 +776,34 @@ def apply_custom_styles():
             line-height: 1.5 !important;
         }
                 
+        /* Target Streamlit label elements specifically */
+        .st-emotion-cache-16idsys p,
+        .st-emotion-cache-16idsys label {
+            font-size: 2rem !important;
+            color: #1e40af !important;
+            font-weight: 700 !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            margin-bottom: 1rem !important;
+            display: block !important;
+            opacity: 1 !important;
+            line-height: 2.5rem !important;
+        }
+        
+        /* Ensure input fields stay the same size */
+        .st-emotion-cache-16idsys input,
+        .st-emotion-cache-16idsys textarea {
+            font-size: 1.2rem !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* Specifically target Domain and Specifications labels */
+        [data-testid="stFormSubmitButton"] ~ div [data-baseweb="label"] p,
+        [data-testid="stTextArea"] ~ div [data-baseweb="label"] p {
+            font-size: 2rem !important;
+            font-weight: 700 !important;
+            color: #1e40af !important;
+        }
+                
         /* Update Paper Summary Text Size */
         .stExpander {
             font-size: 1.2rem !important;  /* Increased from base size */
