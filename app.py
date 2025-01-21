@@ -994,7 +994,6 @@ def apply_custom_styles():
         }
         
         /* Chat Message Styles */
-        /* Chat Message Styles */
         .stChatMessage {
             background-color: #ffffff !important;
             border-radius: 12px !important;
@@ -1004,15 +1003,19 @@ def apply_custom_styles():
             border: 1px solid #e2e8f0 !important;
         }
         
-        /* Force black text color for all chat messages */
-        [data-testid="stChatMessageContent"] p,
-        [data-testid="stMarkdownContainer"] p,
-        [data-testid="chatAvatarIcon"],
-        [data-testid="stChatMessageContent"] {
+        /* Force black text color for all chat messages and their children */
+        [data-testid="stChatMessageContent"],
+        [data-testid="stChatMessageContent"] * {
             color: #000000 !important;
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
             line-height: 1.6 !important;
+        }
+        
+        /* Ensure first message has black text */
+        [data-testid="stChatMessage"]:first-child [data-testid="stChatMessageContent"],
+        [data-testid="stChatMessage"]:first-child [data-testid="stChatMessageContent"] * {
+            color: #000000 !important;
         }
         
         /* User Message Styles - Light blue background */
@@ -1031,6 +1034,20 @@ def apply_custom_styles():
             padding: 0.5rem !important;
         }
         
+        /* Ensure all text elements in chat are black */
+        .stMarkdown, 
+        .stMarkdown p, 
+        .stMarkdown span, 
+        .stMarkdown div,
+        .stMarkdown * {
+            color: #000000 !important;
+        }
+        
+        /* Additional style to force black text on first message */
+        .element-container:first-child [data-testid="stMarkdownContainer"] p {
+            color: #000000 !important;
+        }
+        
         /* Chat Input Field */
         .stChatInput {
             border: 2px solid #e2e8f0 !important;
@@ -1042,39 +1059,6 @@ def apply_custom_styles():
             font-size: 1.1rem !important;
             background-color: #ffffff !important;
             color: #000000 !important;
-        }
-        
-        .stChatInput:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-        }
-        
-        /* Chat Input Placeholder */
-        .stChatInput::placeholder {
-            color: #64748b !important;
-        }
-        
-        /* Code blocks within chat */
-        [data-testid="stMarkdownContainer"] code {
-            background-color: #f1f5f9 !important;
-            padding: 0.2em 0.4em !important;
-            border-radius: 4px !important;
-            font-size: 0.9em !important;
-            color: #000000 !important;
-        }
-        
-        /* Ensure all text elements in chat are black */
-        .stMarkdown, 
-        .stMarkdown p, 
-        .stMarkdown span, 
-        .stMarkdown div {
-            color: #000000 !important;
-        }
-        
-        /* Links within chat messages */
-        [data-testid="stMarkdownContainer"] a {
-            color: #2563eb !important;
-            text-decoration: underline !important;
         }
         </style>
     """, unsafe_allow_html=True)
