@@ -694,7 +694,7 @@ def apply_custom_styles():
         .header p {
             font-family: 'Source Sans Pro', sans-serif;
             color: #475569;
-            font-size: 1.2rem;
+            font-size: 2.2rem;
             line-height: 1.6;
             font-weight: 400;
         }
@@ -760,7 +760,7 @@ def apply_custom_styles():
         [data-testid="stTextArea"] textarea {
             color: #1e40af !important;
             font-weight: 500 !important;
-            font-size: 1.2rem !important;  /* Increased from 1.1rem */
+            font-size: 2.2rem !important;  /* Increased from 1.1rem */
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
             padding: 0.75rem !important;
@@ -768,7 +768,7 @@ def apply_custom_styles():
                 
         /* Update Paper Summary Text Size */
         .stExpander {
-            font-size: 1.2rem !important;  /* Increased from base size */
+            font-size: 2.2rem !important;  /* Increased from base size */
         }
         
         .stTextInput input:focus, 
@@ -826,7 +826,7 @@ def apply_custom_styles():
         .research-title {
             color: #1e293b !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.2rem !important;
+            font-size: 2.2rem !important;
             font-weight: 600 !important;
             margin-bottom: 1rem !important;
             padding: 0.5rem !important;
@@ -848,7 +848,7 @@ def apply_custom_styles():
         .summary-text {
             color: #1e293b !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1.2rem !important;  /* Increased from 1.1rem */
+            font-size: 2.2rem !important;  /* Increased from 1.1rem */
             line-height: 1.6 !important;
             padding: 0.5rem !important;
             opacity: 1 !important;
@@ -943,7 +943,7 @@ def apply_custom_styles():
         
         /* Increase font size for paper titles in expanders */
         .stExpander button p {
-            font-size: 1.2rem !important;
+            font-size: 2.2rem !important;
             color: #1e293b !important;
             font-weight: 500 !important;
         }
