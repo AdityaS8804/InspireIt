@@ -744,15 +744,24 @@ def apply_custom_styles():
             opacity: 1 !important;
         }
         
-        /* Updated Input Label Styles */
-        [data-testid="stTextInput"] label,
-        [data-testid="stTextArea"] label {
+        /* Specifically target Domain and User Specifications labels */
+        div[data-testid="stTextInput"] div[data-baseweb="label"] label,
+        div[data-testid="stTextArea"] div[data-baseweb="label"] label {
+            font-size: 2rem !important;
             color: #1e40af !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
             font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 8.8rem !important;  /* Increased from 1.25rem */
-            margin-bottom: 0.75rem !important;
+            margin-bottom: 1rem !important;
+            display: block !important;
             opacity: 1 !important;
+            line-height: 2.5rem !important;
+        }
+        
+        /* Override any conflicting styles */
+        div[data-testid="stTextInput"] div[data-baseweb="label"],
+        div[data-testid="stTextArea"] div[data-baseweb="label"] {
+            font-size: 2rem !important;
+            margin-bottom: 1rem !important;
         }
         
         /* Updated Input Text Styles */
@@ -760,10 +769,11 @@ def apply_custom_styles():
         [data-testid="stTextArea"] textarea {
             color: #1e40af !important;
             font-weight: 500 !important;
-            font-size: 1.2rem !important;  /* Increased from 1.1rem */
+            font-size: 1.1rem !important;  /* Increased from 1.1rem */
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
             padding: 0.75rem !important;
+            line-height: 1.5 !important;
         }
                 
         /* Update Paper Summary Text Size */
