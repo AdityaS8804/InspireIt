@@ -381,33 +381,19 @@ def get_idea_page():
         # Use columns with different ratios for better spacing
         col1, col2, col3 = st.columns([3.5, 0.5, 1])  # Adjust the ratios as needed
         with col1:
-            st.markdown(f'<h3>Domains</h3>')
+            st.markdown(f'<h3>Domains</h3>',unsafe_allow_html=True)
             new_value = st.text_input("", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
             if i == len(st.session_state.domain_inputs) - 1:  # Only show + button for last input
                 if st.button("➕", key="add_domain"):
                     st.session_state.domain_inputs.append('')
                     st.rerun()
-    st.markdown(f'<h3>User specification</h3>')
+    st.markdown(f'<h3>User specification</h3>',unsafe_allow_html=True)
     specifications = st.text_area(
         "", 
         value=st.session_state.previous_prompt,
         height=100, 
         key="specifications"
-    )
-
-    st.markdown(
-    """
-    <style>
-    textarea {
-        font-size: 31rem !important;
-    }
-    input {
-        font-size: 31rem !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
     )
         
     if st.button("Generate Ideas") or not st.session_state.get('generate_new', False):
