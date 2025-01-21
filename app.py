@@ -517,9 +517,9 @@ def review_idea_page():
         
         initial_idea = idea.get('description', '')
         initial_topics = ", ".join(idea.get('references', []))
-    st.markdown(f'<h4>Refine Your Idea</h4>',unsafe_allow_html=True)
+    st.markdown(f'<h4 style="color:#1e40af;">Refine Your Idea</h4>',unsafe_allow_html=True)
     idea_text = st.text_area("", value=initial_idea, height=150)
-    st.markdown(f'<h4>Topics Covered</h4>',unsafe_allow_html=True)
+    st.markdown(f'<h4 style="color:#1e40af;">Topics Covered</h4>',unsafe_allow_html=True)
     topics = st.text_area("", value=initial_topics, height=100)
     
     if st.button("Generate Complete Idea"):
