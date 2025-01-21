@@ -376,17 +376,17 @@ def get_idea_page():
     home_button()
     st.markdown('<div class="header"><h2>Generate New Idea</h2></div>', unsafe_allow_html=True)
     
-    cols = st.columns([3, 1])
-    
-    with cols[0]:
-        for i, domain in enumerate(st.session_state.domain_inputs):
+    # Change to single column for better domain input layout
+    for i, domain in enumerate(st.session_state.domain_inputs):
+        col1, col2 = st.columns([6, 1])
+        with col1:
             new_value = st.text_input(f"Domain {i+1}", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
-    
-    with cols[1]:
-        if st.button("➕", key="add_domain"):
-            st.session_state.domain_inputs.append('')
-            st.rerun()
+        with col2:
+            if i == len(st.session_state.domain_inputs) - 1:  # Only show + button for last input
+                if st.button("➕", key="add_domain"):
+                    st.session_state.domain_inputs.append('')
+                    st.rerun()
     
     specifications = st.text_area(
         "User Specifications", 
@@ -423,16 +423,16 @@ def generate_and_display_ideas(domains: List[str], specifications: str):
         
         for i, idea in enumerate(st.session_state.ideas):
             with st.container():
-                # Reference Paper
-                st.markdown('<h3 class="idea-section-header">Paper Title</h3>', 
+                # Paper Title with updated styling
+                st.markdown('<h3 class="idea-section-header">Research Paper</h3>', 
                           unsafe_allow_html=True)
-                st.markdown(f'<div class="idea-text">{idea.get("title", "")}</div>', 
+                st.markdown(f'<div class="research-title">{idea.get("title", "")}</div>', 
                           unsafe_allow_html=True)
                 
                 # Idea Description
                 st.markdown('<h3 class="idea-section-header">Idea Description</h3>', 
                           unsafe_allow_html=True)
-                st.markdown(f'<div class="idea-text">{idea.get("description", "")}</div>', 
+                st.markdown(f'<div class="idea-description">{idea.get("description", "")}</div>', 
                           unsafe_allow_html=True)
                 
                 # Generate and display paper summaries
@@ -443,24 +443,28 @@ def generate_and_display_ideas(domains: List[str], specifications: str):
                     
                     summaries = generate_summaries_paper(references)
                     for summary in summaries:
-                        with st.expander(f"📄 :blue[{summary.get('title', 'Paper Summary')}]"):
-                            st.markdown(f"<div class='idea-text'><b>Summary:</b> {summary.get('summary', '')}</div>", 
-                                        unsafe_allow_html=True)
+                        with st.expander(f"📄 {summary.get('title', 'Paper Summary')}"):
+                            st.markdown(f'<div class="summary-text"><b>Summary:</b> {summary.get("summary", "")}</div>', 
+                                      unsafe_allow_html=True)
 
                 col1, col2 = st.columns(2)
                 with col1:
                     st.markdown('<h3 class="idea-section-header">Drawbacks</h3>', 
                               unsafe_allow_html=True)
+                    drawbacks_html = '<div class="drawbacks-list">'
                     for drawback in idea.get("drawbacks", []):
-                        st.markdown(f"- <span class='red-text'>{drawback}</span>", 
-                                  unsafe_allow_html=True)
+                        drawbacks_html += f'<div class="drawback-item">• {drawback}</div>'
+                    drawbacks_html += '</div>'
+                    st.markdown(drawbacks_html, unsafe_allow_html=True)
                 
                 with col2:
                     st.markdown('<h3 class="idea-section-header">Opportunities</h3>', 
                               unsafe_allow_html=True)
+                    opportunities_html = '<div class="opportunities-list">'
                     for opportunity in idea.get("opportunities", []):
-                        st.markdown(f"- <span class='green-text'>{opportunity}</span>", 
-                                  unsafe_allow_html=True)
+                        opportunities_html += f'<div class="opportunity-item">• {opportunity}</div>'
+                    opportunities_html += '</div>'
+                    st.markdown(opportunities_html, unsafe_allow_html=True)
                 
                 if st.button("Develop Idea", key=f"develop_{i}"):
                     st.session_state.selected_idea = idea
@@ -473,8 +477,7 @@ def generate_and_display_ideas(domains: List[str], specifications: str):
                     st.session_state.navigating_to_final = True
                     st.rerun()
 
-                st.markdown("<hr style='margin: 2rem 0; border-color: #e2e8f0;'>", 
-                          unsafe_allow_html=True)
+                st.markdown("<hr class='idea-separator'>", unsafe_allow_html=True)
 
     except Exception as e:
         st.error(f"Error generating ideas: {str(e)}")
@@ -869,6 +872,77 @@ def apply_custom_styles():
             width: 100%;
             font-family: 'Source Sans Pro', sans-serif;
         }
+                
+        /* New and updated styles */
+        .research-title {
+            color: #1e293b;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #f8fafc;
+            border-radius: 6px;
+        }
+        
+        .idea-description {
+            color: #1e293b;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-text {
+            color: #1e293b;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding: 0.5rem;
+        }
+        
+        .drawbacks-list, .opportunities-list {
+            margin-top: 0.5rem;
+        }
+        
+        .drawback-item {
+            color: #991b1b;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #fef2f2;
+            border-radius: 4px;
+        }
+        
+        .opportunity-item {
+            color: #065f46;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f0fdf4;
+            border-radius: 4px;
+        }
+        
+        .idea-separator {
+            margin: 2rem 0;
+            border: 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Add button styling */
+        [data-testid="stButton"] button:has(div:contains("➕")) {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        
+        
         </style>
     """, unsafe_allow_html=True)
 
