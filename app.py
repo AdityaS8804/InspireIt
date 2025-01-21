@@ -622,7 +622,7 @@ def apply_custom_styles():
             margin: 0;
             padding: 0;
         }
-
+        
         .main { 
             padding: 2rem;
             background-color: #9ABDDC;
@@ -633,19 +633,19 @@ def apply_custom_styles():
             border-radius: 8px;
             height: 3.5em;
             background: linear-gradient(to top, #3b82f6, #60a5fa);
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
             color: white;
             font-family: 'Source Sans Pro', sans-serif;
             font-weight: 500;
-            font-color: 2563eb;
+            font-color: #2563eb;
             border: none;
             transition: transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
         }
         
         .stButton button:hover {
             transform: translateY(-2px);
-            background: linear-gradient(to top, #2563eb, #3b82f6);
             box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+            background: linear-gradient(to top, #2563eb, #3b82f6);
         }
         
         .header {
@@ -675,6 +675,13 @@ def apply_custom_styles():
             margin-bottom: 1rem;
         }
         
+        .header h3 {
+            color: #1e40af;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
         .header p {
             font-family: 'Source Sans Pro', sans-serif;
             color: #475569;
@@ -692,10 +699,10 @@ def apply_custom_styles():
             background: linear-gradient(to bottom, #f8fafc 0%, #bfdbfe 100%);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
+        
         .card h3 {
             font-family: 'Source Sans Pro', sans-serif;
-            color: #1e3a8a;
+            color: #1e40af;
             font-weight: 600;
             margin-bottom: 1rem;
         }
@@ -711,32 +718,134 @@ def apply_custom_styles():
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
+        /* Updated softer colors for red/green text */
         .red-text { 
             font-family: 'Source Sans Pro', sans-serif;
-            color: #ef4444;  /* Softer red */
-            font-weight: 600;
-        }
-
-        .green-text { 
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #10b981;  /* Softer green */
+            color: #991b1b;  /* Deeper, more visible red */
             font-weight: 600;
         }
         
-        .stTextInput input, .stTextArea textarea {
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            padding: 0.75rem;
-            transition: all 0.2s ease;
-            background: #ffffff;
+        .green-text { 
             font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1rem;
-            color: #1e293b;
+            color: #065f46;  /* Deeper, more visible green */
+            font-weight: 600;
+        }
+        
+        [data-testid="stTextInput"] label,
+        [data-testid="stTextArea"] label {
+            color: #1e40af !important;
+            font-weight: 600 !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.25rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+        
+        [data-testid="stTextInput"] input,
+        [data-testid="stTextArea"] textarea {
+            color: #1e40af !important;
+            font-weight: 500 !important;
+            font-size: 1.1rem !important;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem !important;
         }
         
         .stTextInput input:focus, .stTextArea textarea:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Section headers all using same dark blue */
+        .idea-section-header,
+        .paper-section-header {
+            color: #1e40af;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3b82f6;
+        }
+        
+        .paper-abstract {
+            color: #1e293b;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .paper-references {
+            color: #1e293b;  /* Darker color for better visibility */
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .paper-references li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Updated innovation color for better visibility */
+        .paper-innovation {
+            color: #065f46;  /* Darker green for better visibility */
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .idea-text {
+            color: #1e293b;  /* Dark slate blue for better visibility */
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        /* Reference link styling with better visibility */
+        .reference-link {
+            color: #1e40af;  /* Dark blue for better visibility */
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .reference-link:hover {
+            color: #1e3a8a;
+            text-decoration: underline;
+        }
+        
+        /* Input container and domain button styling */
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .add-domain-btn {
+            align-self: flex-start;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(to top, #3b82f6, #60a5fa);
+            color: white;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .add-domain-btn:hover {
+            background: linear-gradient(to top, #2563eb, #3b82f6);
+        }
+        
+        [data-testid="stTextInput"] {
+            margin-bottom: 1rem !important;
+        }
+        
+        [data-testid="stButton"] {
+            margin-top: 0.5rem;
         }
         
         /* Chat message styling */
@@ -747,11 +856,11 @@ def apply_custom_styles():
             margin-bottom: 1rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-
+        
         .stChatMessage.user {
             background-color: #f0f4ff;
         }
-
+        
         .stChatInput {
             border-radius: 8px;
             border: 2px solid #e2e8f0;
@@ -760,158 +869,6 @@ def apply_custom_styles():
             width: 100%;
             font-family: 'Source Sans Pro', sans-serif;
         }
-
-        
-        [data-testid="stTextInput"] label,
-        [data-testid="stTextArea"] label {
-            color: #1e293b !important;  /* Dark slate blue color */
-            font-weight: 600 !important;
-            font-family: 'Source Sans Pro', sans-serif !important;
-            font-size: 1rem !important;
-            margin-bottom: 0.5rem !important;
-        }
-        
-        /* Keep existing input/textarea styling */
-        [data-testid="stTextInput"] input {
-            color: #1e3a8a;  /* Dark blue color */
-            font-weight: 500;
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-        }
-        
-        [data-testid="stTextArea"] textarea {
-            color: #1e3a8a;  /* Dark blue color */
-            font-weight: 500;
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-        }
-        
-        /* Add Domain button styling */
-        .add-domain-btn {
-            background: linear-gradient(to top, #3b82f6, #60a5fa);
-            color: white;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            border: none;
-            margin-top: 0.5rem;
-            width: auto !important;
-        }
-        
-        .add-domain-btn:hover {
-            background: linear-gradient(to top, #2563eb, #3b82f6);
-        }
-
-         /* Updated heading styles for final paper page */
-        .paper-section-header {
-            color: #1e40af;  /* Matching dark blue */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3b82f6;
-        }
-        
-        /* Updated text colors for final paper page */
-        .paper-abstract {
-            color: #1e293b;  /* Dark slate blue */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-        
-        .paper-references {
-            color: #334155;  /* Slate gray */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-        
-        .paper-references li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .paper-innovation {
-            color: #059669;  /* Softer green for better harmony */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-
-        /* Idea section headers */
-        .idea-section-header {
-            color: #1e40af;  /* Darker blue for better contrast */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3b82f6;
-        }
-
-
-        /* Idea text styling */
-        .idea-text {
-            color: #1e293b;  /* Dark slate blue for better visibility */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        /* Button styling */
-        .stButton > button {
-            height: 40px;
-            margin: 0;
-            padding: 0.5rem 1rem;
-        }
-
-        /* Textarea styling */
-        .stTextArea textarea {
-            margin-bottom: 1rem;
-        }
-
-        /* Button container */
-        .button-container {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            align-items: center;
-        }
-
-        .button-container .stButton {
-            flex: 1;
-            margin: 0;
-        }
-
-        /* Reference link styling */
-        .reference-link {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .reference-link:hover {
-            color: #1d4ed8;
-            text-decoration: underline;
-        }
-
-        /* Input container */
-        .input-container {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-end;
-            margin-bottom: 1rem;
-        }
-
-        .input-container .stTextInput {
-            flex: 1;
-        }
-        
         </style>
     """, unsafe_allow_html=True)
 
