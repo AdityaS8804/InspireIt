@@ -587,6 +587,44 @@ def explore_page():
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
     
+    # Add custom styling for chat input container
+    st.markdown("""
+        <style>
+        /* Chat Input Container Style */
+        .stChatInputContainer {
+            background-color: #f0f7ff !important;  /* Light blue background */
+            padding: 1rem !important;
+            border-radius: 12px !important;
+            border: 2px solid #e2e8f0 !important;
+            margin-top: 1rem !important;
+        }
+        
+        /* Chat Input Field Style */
+        .stChatInput {
+            background-color: #f0f7ff !important;  /* Light blue background */
+            border: 2px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 1rem !important;
+            margin-top: 0 !important;  /* Remove top margin since container has padding */
+            width: 100% !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            color: #000000 !important;
+        }
+        
+        .stChatInput::placeholder {
+            color: #64748b !important;
+            opacity: 1 !important;
+        }
+        
+        .stChatInput:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+            background-color: #ffffff !important;  /* White background when focused */
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
     # Chat input
     if prompt := st.chat_input("Enter your message"):
         # Add user message to chat
