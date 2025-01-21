@@ -591,26 +591,36 @@ def explore_page():
     st.markdown("""
         <style>
         /* Chat Input Container Style */
-        /* Chat Input Container Style */
-        .stChatInputContainer {
-            background-color: #f8fafc !important;  /* Light background */
-            padding: 1rem !important;
-            border-radius: 12px !important;
-            border: 2px solid #e2e8f0 !important;
-            margin-top: 1rem !important;
-        }
-        
+.stChatInputContainer {
+    background-color: #f0f7ff !important;  /* Light blue background */
+    padding: 1rem !important;
+    border-radius: 12px !important;
+    border: 2px solid #3b82f6 !important;  /* Blue border */
+    margin-top: 1rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
         /* Chat Input Field Style */
         .stChatInput {
-            background-color: #ffffff !important;  /* White background */
-            border: 2px solid #e2e8f0 !important;
-            border-radius: 12px !important;
+            background-color: #ffffff !important;
+            border: 1px solid #3b82f6 !important;  /* Blue border */
+            border-radius: 8px !important;
             padding: 1rem !important;
-            margin-top: 0 !important;
             width: 100% !important;
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
-            color: #1e293b !important;  /* Dark text for better readability */
+            color: #1e293b !important;  /* Dark text color */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        .stChatInput::placeholder {
+            color: #64748b !important;  /* Visible placeholder text */
+        }
+        
+        .stChatInput:focus {
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+            outline: none !important;
         }
         
         /* Add this to ensure code blocks are readable */
