@@ -1,6 +1,6 @@
 snowflake-snowpark-python
 snowflake-connector-python
-streamlit
+streamlit==1.39.0
 snowflake-core
 snowflake-cortex
 typing
