@@ -618,40 +618,40 @@ def apply_custom_styles():
         
         /* Reset Streamlit's default background */
         .stApp {
-            background: #E5F3FD;
+            background: #9ABDDC;
             margin: 0;
             padding: 0;
         }
-        
+
         .main { 
             padding: 2rem;
-            background-color: #E5F3FD;
+            background-color: #9ABDDC;
         }
         
         .stButton button {
             width: 100%;
             border-radius: 8px;
             height: 3.5em;
-            background: linear-gradient(to top, #60a5fa, #93c5fd);
+            background: linear-gradient(to top, #3b82f6, #60a5fa);
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
             color: white;
             font-family: 'Source Sans Pro', sans-serif;
             font-weight: 500;
             font-color: 2563eb;
             border: none;
             transition: transform 0.2s ease;
-            box-shadow: 0 2px 4px rgba(96, 165, 250, 0.2);
         }
         
         .stButton button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(96, 165, 250, 0.25);
-            background: linear-gradient(to top, #3b82f6, #60a5fa);
+            background: linear-gradient(to top, #2563eb, #3b82f6);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
         }
         
         .header {
             text-align: center;
             padding: 3rem 0;
-            background: linear-gradient(to bottom, #f0f4ff 0%, #AECCE4 100%);
+            background: linear-gradient(to bottom, #f8fafc 0%, #bfdbfe 100%);
             margin-bottom: 1.5rem;
             border-radius: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -661,7 +661,7 @@ def apply_custom_styles():
             font-family: 'Source Sans Pro', sans-serif;
             font-weight: 700;
             font-size: 3.5rem;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.01em;
@@ -671,7 +671,7 @@ def apply_custom_styles():
             font-family: 'Source Sans Pro', sans-serif;
             font-weight: 600;
             font-size: 2.5rem;
-            color: #1e3a8a;
+            color: #1e40af;
             margin-bottom: 1rem;
         }
         
@@ -689,7 +689,7 @@ def apply_custom_styles():
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
             margin-bottom: 1.5rem;
             border: 1px solid #f1f5f9;
-            background: linear-gradient(to bottom, #f0f4ff 0%, #AECCE4 100%);
+            background: linear-gradient(to bottom, #f8fafc 0%, #bfdbfe 100%);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -713,13 +713,13 @@ def apply_custom_styles():
         
         .red-text { 
             font-family: 'Source Sans Pro', sans-serif;
-            color: #dc2626;
+            color: #ef4444;  /* Softer red */
             font-weight: 600;
         }
-        
+
         .green-text { 
             font-family: 'Source Sans Pro', sans-serif;
-            color: #059669;
+            color: #10b981;  /* Softer green */
             font-weight: 600;
         }
         
@@ -788,7 +788,7 @@ def apply_custom_styles():
         
         /* Add Domain button styling */
         .add-domain-btn {
-            background: linear-gradient(to top, #60a5fa, #93c5fd);
+            background: linear-gradient(to top, #3b82f6, #60a5fa);
             color: white;
             border-radius: 8px;
             padding: 0.5rem 1rem;
@@ -798,18 +798,18 @@ def apply_custom_styles():
         }
         
         .add-domain-btn:hover {
-            background: linear-gradient(to top, #3b82f6, #60a5fa);
+            background: linear-gradient(to top, #2563eb, #3b82f6);
         }
 
          /* Updated heading styles for final paper page */
         .paper-section-header {
-            color: #1e3a8a;  /* Deep blue */
+            color: #1e40af;  /* Matching dark blue */
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 1.75rem;
             font-weight: 700;
             margin: 2rem 0 1rem 0;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3b82f6;  /* Blue underline */
+            border-bottom: 2px solid #3b82f6;
         }
         
         /* Updated text colors for final paper page */
@@ -833,16 +833,17 @@ def apply_custom_styles():
         }
         
         .paper-innovation {
-            color: #047857;  /* Darker green for better visibility */
+            color: #059669;  /* Softer green for better harmony */
             font-family: 'Source Sans Pro', sans-serif;
             font-weight: 600;
             font-size: 1rem;
             line-height: 1.6;
         }
 
+
         /* Idea section headers */
         .idea-section-header {
-            color: #1e3a8a;  /* Deep blue */
+            color: #1e40af;  /* Darker blue for better contrast */
             font-family: 'Source Sans Pro', sans-serif;
             font-size: 1.75rem;
             font-weight: 700;
@@ -850,6 +851,7 @@ def apply_custom_styles():
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #3b82f6;
         }
+
 
         /* Idea text styling */
         .idea-text {
