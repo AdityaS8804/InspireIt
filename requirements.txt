@@ -1,0 +1,7 @@
+snowflake-snowpark-python
+snowflake-connector-python
+streamlit
+snowflake-core
+snowflake-cortex
+typing
+json
