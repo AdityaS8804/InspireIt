@@ -394,6 +394,20 @@ def get_idea_page():
         height=100, 
         key="specifications"
     )
+
+    st.markdown(
+    """
+    <style>
+    textarea {
+        font-size: 3rem !important;
+    }
+    input {
+        font-size: 3rem !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+    )
         
     if st.button("Generate Ideas") or not st.session_state.get('generate_new', False):
         if any(st.session_state.domain_inputs) and specifications:
