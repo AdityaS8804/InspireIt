@@ -631,6 +631,7 @@ def apply_custom_styles():
             background-color: #9ABDDC;
         }
         
+        /* Button Styles */
         .stButton button {
             width: 100%;
             border-radius: 8px;
@@ -651,6 +652,7 @@ def apply_custom_styles():
             background: linear-gradient(to top, #2563eb, #3b82f6);
         }
         
+        /* Header Styles */
         .header {
             text-align: center;
             padding: 3rem 0;
@@ -661,28 +663,32 @@ def apply_custom_styles():
         }
         
         .header h1 {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 700;
-            font-size: 3.5rem;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 3.5rem !important;
             background: linear-gradient(135deg, #1e40af, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.01em;
+            color: #1e40af !important;
+            opacity: 1 !important;
         }
         
         .header h2 {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 600;
-            font-size: 2.5rem;
-            color: #1e40af;
-            margin-bottom: 1rem;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 2.5rem !important;
+            color: #1e40af !important;
+            margin-bottom: 1rem !important;
+            opacity: 1 !important;
         }
         
         .header h3 {
-            color: #1e40af;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            color: #1e40af !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-weight: 600 !important;
+            margin-bottom: 1rem !important;
+            opacity: 1 !important;
         }
         
         .header p {
@@ -693,6 +699,7 @@ def apply_custom_styles():
             font-weight: 400;
         }
         
+        /* Card Styles */
         .card {
             padding: 1.5rem;
             border-radius: 12px;
@@ -704,10 +711,11 @@ def apply_custom_styles():
         }
         
         .card h3 {
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #1e40af;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            color: #1e40af !important;
+            font-weight: 600 !important;
+            margin-bottom: 1rem !important;
+            opacity: 1 !important;
         }
         
         .card p {
@@ -721,19 +729,22 @@ def apply_custom_styles():
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
-        /* Updated softer colors for red/green text */
+        /* Text Colors */
         .red-text { 
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #991b1b;  /* Deeper, more visible red */
-            font-weight: 600;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            color: #991b1b !important;  /* Deeper, more visible red */
+            font-weight: 600 !important;
+            opacity: 1 !important;
         }
         
         .green-text { 
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #065f46;  /* Deeper, more visible green */
-            font-weight: 600;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            color: #065f46 !important;  /* Deeper, more visible green */
+            font-weight: 600 !important;
+            opacity: 1 !important;
         }
         
+        /* Input Styles */
         [data-testid="stTextInput"] label,
         [data-testid="stTextArea"] label {
             color: #1e40af !important;
@@ -741,6 +752,7 @@ def apply_custom_styles():
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.25rem !important;
             margin-bottom: 0.75rem !important;
+            opacity: 1 !important;
         }
         
         [data-testid="stTextInput"] input,
@@ -753,105 +765,147 @@ def apply_custom_styles():
             padding: 0.75rem !important;
         }
         
-        .stTextInput input:focus, .stTextArea textarea:focus {
+        .stTextInput input:focus, 
+        .stTextArea textarea:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        /* Section headers all using same dark blue */
+        /* Section Headers */
         .idea-section-header,
-        .paper-section-header {
-            color: #1e40af;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3b82f6;
+        .paper-section-header,
+        div[data-testid="stMarkdownContainer"] h3 {
+            color: #1e40af !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.75rem !important;
+            font-weight: 700 !important;
+            margin: 2rem 0 1rem 0 !important;
+            padding-bottom: 0.5rem !important;
+            border-bottom: 2px solid #3b82f6 !important;
+            opacity: 1 !important;
         }
         
+        /* Paper Styles */
         .paper-abstract {
-            color: #1e293b;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            color: #1e293b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+            margin-bottom: 2rem !important;
+            opacity: 1 !important;
         }
         
         .paper-references {
-            color: #1e293b;  /* Darker color for better visibility */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
+            color: #1e293b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+            opacity: 1 !important;
         }
         
         .paper-references li {
             margin-bottom: 0.5rem;
         }
         
-        /* Updated innovation color for better visibility */
         .paper-innovation {
-            color: #065f46;  /* Darker green for better visibility */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.6;
+            color: #065f46 !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+            opacity: 1 !important;
         }
         
-        .idea-text {
-            color: #1e293b;  /* Dark slate blue for better visibility */
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-        
-        /* Reference link styling with better visibility */
-        .reference-link {
-            color: #1e40af;  /* Dark blue for better visibility */
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        
-        .reference-link:hover {
-            color: #1e3a8a;
-            text-decoration: underline;
-        }
-        
-        /* Input container and domain button styling */
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .add-domain-btn {
-            align-self: flex-start;
-            margin-top: 0.5rem;
-            padding: 0.5rem 1.5rem;
-            background: linear-gradient(to top, #3b82f6, #60a5fa);
-            color: white;
-            border-radius: 8px;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .add-domain-btn:hover {
-            background: linear-gradient(to top, #2563eb, #3b82f6);
-        }
-        
-        [data-testid="stTextInput"] {
+        /* Idea Styles */
+        .research-title {
+            color: #1e293b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
             margin-bottom: 1rem !important;
+            padding: 0.5rem !important;
+            background-color: #f8fafc !important;
+            border-radius: 6px !important;
+            opacity: 1 !important;
         }
         
-        [data-testid="stButton"] {
+        .idea-description {
+            color: #1e293b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+            margin-bottom: 1.5rem !important;
+            opacity: 1 !important;
+        }
+        
+        /* Summary Styles */
+        .summary-text {
+            color: #1e293b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            line-height: 1.6 !important;
+            padding: 0.5rem !important;
+            opacity: 1 !important;
+        }
+        
+        /* List Styles */
+        .drawbacks-list, 
+        .opportunities-list {
             margin-top: 0.5rem;
         }
         
-        /* Chat message styling */
+        .drawback-item {
+            color: #991b1b !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            margin-bottom: 0.5rem !important;
+            padding: 0.5rem !important;
+            background-color: #fef2f2 !important;
+            border-radius: 4px !important;
+            opacity: 1 !important;
+        }
+        
+        .opportunity-item {
+            color: #065f46 !important;
+            font-family: 'Source Sans Pro', sans-serif !important;
+            font-size: 1.1rem !important;
+            margin-bottom: 0.5rem !important;
+            padding: 0.5rem !important;
+            background-color: #f0fdf4 !important;
+            border-radius: 4px !important;
+            opacity: 1 !important;
+        }
+        
+        /* Separator */
+        .idea-separator {
+            margin: 2rem 0;
+            border: 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Fix domain input and add button layout */
+        [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stButton"] {
+            margin-top: 25px !important;
+        }
+        
+        /* Plus Button Styling */
+        [data-testid="stButton"] button:has(div:contains("➕")) {
+            width: 40px !important;
+            height: 40px !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-top: 25px !important;
+            min-height: unset !important;
+        }
+        
+        /* Force dark mode prevention */
+        [data-testid="stAppViewContainer"] {
+            color-scheme: light !important;
+        }
+        
+        /* Chat Styles */
         .stChatMessage {
             background-color: #ffffff;
             border-radius: 12px;
@@ -872,77 +926,6 @@ def apply_custom_styles():
             width: 100%;
             font-family: 'Source Sans Pro', sans-serif;
         }
-                
-        /* New and updated styles */
-        .research-title {
-            color: #1e293b;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: #f8fafc;
-            border-radius: 6px;
-        }
-        
-        .idea-description {
-            color: #1e293b;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        
-        .summary-text {
-            color: #1e293b;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            padding: 0.5rem;
-        }
-        
-        .drawbacks-list, .opportunities-list {
-            margin-top: 0.5rem;
-        }
-        
-        .drawback-item {
-            color: #991b1b;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            background-color: #fef2f2;
-            border-radius: 4px;
-        }
-        
-        .opportunity-item {
-            color: #065f46;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            background-color: #f0fdf4;
-            border-radius: 4px;
-        }
-        
-        .idea-separator {
-            margin: 2rem 0;
-            border: 0;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        /* Add button styling */
-        [data-testid="stButton"] button:has(div:contains("➕")) {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 5px;
-        }
-        
-        
         </style>
     """, unsafe_allow_html=True)
 
