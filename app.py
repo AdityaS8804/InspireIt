@@ -377,11 +377,11 @@ def get_idea_page():
     st.markdown('<div class="header"><h2>Generate New Idea</h2></div>', unsafe_allow_html=True)
     
     # Change to single container for better domain input layout
+    st.markdown(f'<h3>Domains</h3>',unsafe_allow_html=True)
     for i, domain in enumerate(st.session_state.domain_inputs):
         # Use columns with different ratios for better spacing
         col1, col2, col3 = st.columns([3.5, 0.5, 1])  # Adjust the ratios as needed
         with col1:
-            st.markdown(f'<h3>Domains</h3>',unsafe_allow_html=True)
             new_value = st.text_input("", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
             if i == len(st.session_state.domain_inputs) - 1:  # Only show + button for last input
