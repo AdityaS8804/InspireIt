@@ -592,7 +592,7 @@ def explore_page():
         <style>
         /* Chat Input Container Style */
         .stChatInputContainer {
-            background-color: #000000 !important;  /* Light blue background */
+            background-color: #bbbbbb !important;  /* Light blue background */
             padding: 1rem !important;
             border-radius: 12px !important;
             border: 2px solid #e2e8f0 !important;
