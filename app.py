@@ -587,22 +587,22 @@ def explore_page():
         <style>
         /* Override the default dark styling */
         .stChatFloatingInputContainer {
-            background-color: #ffffff !important;
+            background-color: #bbbbbb !important;
         }
         
         .stChatInputContainer {
-            background-color: #ffffff !important;
+            background-color: #bbbbbb !important;
             border: 2px solid #3b82f6 !important;
         }
         
         .stChatInput {
-            background-color: #ffffff !important;
+            background-color: #bbbbbb !important;
             color: #000000 !important;
         }
         
         /* Ensure message container is visible */
         [data-testid="stChatMessageContainer"] {
-            background-color: #ffffff !important;
+            background-color: #bbbbbb !important;
         }
         
         /* Make chat messages stand out */
