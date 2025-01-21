@@ -591,8 +591,9 @@ def explore_page():
     st.markdown("""
         <style>
         /* Chat Input Container Style */
+        /* Chat Input Container Style */
         .stChatInputContainer {
-            background-color: #000000 !important;  /* Light blue background */
+            background-color: #f8fafc !important;  /* Light background */
             padding: 1rem !important;
             border-radius: 12px !important;
             border: 2px solid #e2e8f0 !important;
@@ -601,21 +602,31 @@ def explore_page():
         
         /* Chat Input Field Style */
         .stChatInput {
-            background-color: #000000 !important;  /* Light blue background */
+            background-color: #ffffff !important;  /* White background */
             border: 2px solid #e2e8f0 !important;
             border-radius: 12px !important;
             padding: 1rem !important;
-            margin-top: 0 !important;  /* Remove top margin since container has padding */
+            margin-top: 0 !important;
             width: 100% !important;
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
-            color: #bbbbbb !important;
+            color: #1e293b !important;  /* Dark text for better readability */
+        }
+        
+        /* Add this to ensure code blocks are readable */
+        .stMarkdown code {
+            background-color: #f8f9fa !important;
+            color: #000000 !important;
+            padding: 0.2em 0.4em !important;
+            border-radius: 3px !important;
         }
         
         .stChatInput::placeholder {
             color: #64748b !important;
             opacity: 1 !important;
         }
+
+        
         
         .stChatInput:focus {
             border-color: #3b82f6 !important;
@@ -980,6 +991,7 @@ def apply_custom_styles():
         [data-testid="stTextInput"] {
             margin-bottom: 0 !important;
         }
+        
         
         /* Plus Button Alignment and Styling */
         [data-testid="stButton"] button:has(div:contains("➕")) {
