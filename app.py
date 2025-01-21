@@ -601,7 +601,7 @@ def explore_page():
         
         /* Chat Input Field Style */
         .stChatInput {
-            background-color: #000000 !important;  /* Light blue background */
+            background-color: #bbbbbb !important;  /* Light blue background */
             border: 2px solid #e2e8f0 !important;
             border-radius: 12px !important;
             padding: 1rem !important;
