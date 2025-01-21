@@ -379,7 +379,7 @@ def get_idea_page():
     # Change to single container for better domain input layout
     for i, domain in enumerate(st.session_state.domain_inputs):
         # Use columns with different ratios for better spacing
-        col1, col2, col3 = st.columns([5.5, 0.5, 1])  # Adjust the ratios as needed
+        col1, col2, col3 = st.columns([3.5, 0.5, 1])  # Adjust the ratios as needed
         with col1:
             new_value = st.text_input(f"Domain {i+1}", value=domain, key=f"domain_{i}")
             st.session_state.domain_inputs[i] = new_value
