@@ -898,6 +898,15 @@ def apply_custom_styles():
         [data-testid="stHorizontalBlock"] [data-testid="column"] [data-testid="stButton"] {
             margin-top: 25px !important;
         }
+                
+        [data-testid="stHorizontalBlock"] {
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+        }
+                
+        [data-testid="stTextInput"] {
+            margin-bottom: 0 !important;
+        }
         
         /* Plus Button Alignment and Styling */
         [data-testid="stButton"] button:has(div:contains("➕")) {
@@ -907,9 +916,10 @@ def apply_custom_styles():
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            margin-top: 23px !important;  /* Align with text input */
+            margin-top: 1.5rem !important;  /* Align with input field */
             min-height: unset !important;
             background: linear-gradient(to top, #3b82f6, #60a5fa) !important;
+            border-radius: 8px !important;
         }
         
         [data-testid="stButton"] button:has(div:contains("➕")):hover {
@@ -919,7 +929,21 @@ def apply_custom_styles():
                 
         /* Better spacing for the domain inputs */
         [data-testid="column"] {
-            padding: 0 !important;
+            padding: 0 0.5rem !important;  /* Add minimal padding */
+            display: flex !important;
+            align-items: flex-start !important;
+        }
+                
+                /* Input Label Adjustment */
+        [data-testid="stTextInput"] label {
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+
+        /* Input Field Height */
+        [data-testid="stTextInput"] input {
+            height: 40px !important;  /* Match button height */
+            margin-top: 0 !important;
         }
         
         /* Increase font size for paper titles in expanders */
