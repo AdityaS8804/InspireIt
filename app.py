@@ -592,7 +592,7 @@ def explore_page():
         <style>
         /* Chat Input Container Style */
         .stChatInputContainer {
-            background-color: #bbbbbb !important;  /* Light blue background */
+            background-color: #000000 !important;  /* Light blue background */
             padding: 1rem !important;
             border-radius: 12px !important;
             border: 2px solid #e2e8f0 !important;
@@ -601,7 +601,7 @@ def explore_page():
         
         /* Chat Input Field Style */
         .stChatInput {
-            background-color: #bbbbbb !important;  /* Light blue background */
+            background-color: #000000 !important;  /* Light blue background */
             border: 2px solid #e2e8f0 !important;
             border-radius: 12px !important;
             padding: 1rem !important;
@@ -609,7 +609,7 @@ def explore_page():
             width: 100% !important;
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
-            color: #000000 !important;
+            color: #bbbbbb !important;
         }
         
         .stChatInput::placeholder {
