@@ -994,6 +994,7 @@ def apply_custom_styles():
         }
         
         /* Chat Message Styles */
+        /* Chat Message Styles */
         .stChatMessage {
             background-color: #ffffff !important;
             border-radius: 12px !important;
@@ -1003,19 +1004,25 @@ def apply_custom_styles():
             border: 1px solid #e2e8f0 !important;
         }
         
-        /* User Message Styles */
+        /* Force black text color for all chat messages */
+        [data-testid="stChatMessageContent"] p,
+        [data-testid="stMarkdownContainer"] p,
+        [data-testid="chatAvatarIcon"],
         [data-testid="stChatMessageContent"] {
-            background-color: #ffffff !important;
-            color: #1e293b !important;
+            color: #000000 !important;
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
             line-height: 1.6 !important;
         }
         
-        /* Assistant Message Styles */
-        [data-testid="stChatMessageContent"][data-assistant="true"] {
-            background-color: #f8fafc !important;
-            color: #1e293b !important;
+        /* User Message Styles - Light blue background */
+        [data-testid="stChatMessage"] div:has([data-testid="userAvatar"]) {
+            background-color: #f0f7ff !important;
+        }
+        
+        /* Assistant Message Styles - Light gray background */
+        [data-testid="stChatMessage"] div:has([data-testid="assistantAvatar"]) {
+            background-color: #f8f9fa !important;
         }
         
         /* Message Container */
@@ -1034,7 +1041,7 @@ def apply_custom_styles():
             font-family: 'Source Sans Pro', sans-serif !important;
             font-size: 1.1rem !important;
             background-color: #ffffff !important;
-            color: #1e293b !important;
+            color: #000000 !important;
         }
         
         .stChatInput:focus {
@@ -1047,27 +1054,27 @@ def apply_custom_styles():
             color: #64748b !important;
         }
         
-        /* Chat Message Text */
-        [data-testid="stMarkdownContainer"] p {
-            color: #1e293b !important;
-            font-size: 1.1rem !important;
-            line-height: 1.6 !important;
-            margin-bottom: 0.5rem !important;
-        }
-        
-        /* Links within chat messages */
-        [data-testid="stMarkdownContainer"] a {
-            color: #2563eb !important;
-            text-decoration: underline !important;
-        }
-        
         /* Code blocks within chat */
         [data-testid="stMarkdownContainer"] code {
             background-color: #f1f5f9 !important;
             padding: 0.2em 0.4em !important;
             border-radius: 4px !important;
             font-size: 0.9em !important;
-            color: #1e293b !important;
+            color: #000000 !important;
+        }
+        
+        /* Ensure all text elements in chat are black */
+        .stMarkdown, 
+        .stMarkdown p, 
+        .stMarkdown span, 
+        .stMarkdown div {
+            color: #000000 !important;
+        }
+        
+        /* Links within chat messages */
+        [data-testid="stMarkdownContainer"] a {
+            color: #2563eb !important;
+            text-decoration: underline !important;
         }
         </style>
     """, unsafe_allow_html=True)
